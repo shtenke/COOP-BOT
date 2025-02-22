@@ -2,15 +2,18 @@ import os
 import telebot
 from logic import process_image
 from config import TOKEN
+import time
 
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
 def handle_start(message):
-    bot.send_message(message.chat.id, "Привет! Отправьте мне фото, и я замажу номерные знаки машин на нем")
+    bot.send_message(message.chat.id, "Привет! Отправьте мне фото, и я замажу номерные знаки машин на нем и лица водителей")
 
 @bot.message_handler(content_types=['photo'])
 def handle_photo(message):
+    bot.send_chat_action(message.chat.id, 'typing')
+    time.sleep(3)
     try:
         # Получаем файл фотографии
         file_id = message.photo[-1].file_id 
